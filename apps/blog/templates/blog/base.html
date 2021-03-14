@@ -5,32 +5,75 @@
 
 <head>
     <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="{% static 'css/blog.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"> -->
 </head>
 
 <body>
-    <div id="content">
-        {% block content %}
-        {% endblock %}
+
+    <!-- Sidebar ---------------------------------------------------------------------------------------------------------------->
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h2>My blog</h2>
+            </div>
+            <p>This is my blog. I've written {% total_posts %} posts so far.</p>
+            <p>
+                <a href="{% url 'apps.blog:post_feed' %}">Subscribe to my RSS Feed</a>
+            </p>
+            <h3>Latest Posts</h3>
+            <ul class="list-unstyled components">
+                {% show_latest_posts 3 %}
+                <h3>Most commented posts.</h3>
+                {% get_most_commented_posts as most_commented_posts %}
+                <ul>
+                    {% for post in most_commented_posts %}
+                    <li>
+                        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </ul>
+        </nav>
+
+        <!--------------------- Sidebar Ends------------------------------------------------------------------------------------------------------------>
+
+        <!-------------------------------------------- Main content  ----------------------------------------------------------------------------------------->
+        <div id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+
     </div>
-    <div id="sidebar">
-        <h2>My blog</h2>
-        <p>This is my blog. I've written {% total_posts %} posts so far.</p>
-        <p>
-            <a href="{% url 'apps.blog:post_feed' %}">Subscribe to my RSS Feed</a>
-        </p>
-        <h3>Latest Posts</h3>
-        {% show_latest_posts 3 %}
-        <h3>Most commented posts.</h3>
-        {% get_most_commented_posts as most_commented_posts %}
-        <ul>
-            {% for post in most_commented_posts %}
-            <li>
-                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
+    <!------------------------------------------------------ Main content ends  --------------------------------->
+
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+        integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+        crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+        integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+        crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+
+        });
+    </script>
 </body>
 
 </html>

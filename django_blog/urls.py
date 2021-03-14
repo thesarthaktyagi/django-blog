@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.sitemaps.views import sitemap
 from apps.blog.sitemaps import PostSitemap
+from django.conf import settings
+from django.conf.urls.static import static
 
 sitemaps = {
     'posts': PostSitemap,
@@ -24,8 +26,9 @@ sitemaps = {
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('blog/', include('apps.blog.urls', namespace='apps.blog')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
          name='django.contrib.sitemaps.views.sitemap')
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
